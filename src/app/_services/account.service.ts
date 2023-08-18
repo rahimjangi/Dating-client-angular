@@ -7,20 +7,33 @@ import { User } from '../_models/user';
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl = 'https://localhost:5000/api/Account/login';
+  baseUrl = 'https://localhost:5000/api/Account/';
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+  
+  register(model:any) {
+    return this.http.post<User>(this.baseUrl + "register", model).pipe(
+      map((user) => {
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
+          this.currentUserSource.next(user);
+        }
+        return user;
+      })
+    );
+  }
 
   login(model: any): Observable<any> {
-    return this.http.post<User>(this.baseUrl, model).pipe(
+    return this.http.post<User>(this.baseUrl+"login", model).pipe(
       map((response: User) => {
         const user = response;
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
         }
+        return user;
       })
     );
   }

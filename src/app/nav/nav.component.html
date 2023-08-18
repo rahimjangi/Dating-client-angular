@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">Dating App</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -7,7 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             
-            <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="logedIn">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="accountService.currentUser$|async">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#">Matches</a>
                 </li>
@@ -20,14 +20,14 @@
             </ul>
             <ul class="navbar-nav me-auto mb-2 mb-md-0"></ul>
 
-            <div class="dropdown " *ngIf="logedIn" dropdown>
+            <div class="dropdown " *ngIf="accountService.currentUser$|async" dropdown>
                 <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>Welcome User</a>
                 <div class="dropdown-menu" *dropdownMenu="">
                     <a class="dropdown-item ">Edit Profile</a>
                     <a class="dropdown-item" (click)="Logout()">Logout</a>
                 </div>
             </div>
-            <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex" autocomplete="off" *ngIf="!logedIn">
+            <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex" autocomplete="off" *ngIf="!(accountService.currentUser$|async)">
                 <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text"
                     placeholder="Username">
                 <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
