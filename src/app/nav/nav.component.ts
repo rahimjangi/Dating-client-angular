@@ -25,7 +25,7 @@ export class NavComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
-        this.toastr.error(err.error, "Login failed!");
+        // this.toastr.error(err.error, "Login failed!");
       },
       complete: () => {
         console.log('login service completed!');

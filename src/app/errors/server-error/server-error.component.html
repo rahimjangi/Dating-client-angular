@@ -1,0 +1,10 @@
+<div class="container">
+    <h1>Server Error -- refreshing the page will make the error disappear</h1>
+
+    <ng-container *ngIf="error">
+        <p class="text-danger">{{error.message}}</p>
+        <p class="text-danger">{{error.details}}</p>
+    </ng-container>
+
+    <button class="btn btn-outline-primary btn-lg" routerLink="/">Return to home page</button>
+</div>
