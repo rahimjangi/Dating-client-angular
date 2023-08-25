@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { HttpClient } from '@angular/common/http';
+import { MembersService } from '../_services/members.service';
+import { Member } from '../_models/member';
 
 @Component({
   selector: 'app-home',
@@ -10,34 +12,44 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomeComponent implements OnInit {
   registerMode = false;
-  urlPath = 'https://localhost:5000/api/AppUsers';
-  users: any;
+  users: Member[]=[];
 
   constructor(
     private accountService: AccountService,
-    private _httpClient: HttpClient
+    private membersService: MembersService
   ) {}
   ngOnInit(): void {
-    this.getUsers()
+    let user:User|null=null;
+    this.accountService.currentUser$.subscribe({
+      next: (data) => {
+        user=data
+      }
+    })
+    if (user) {
+      this.loadMembers();
+    }
   }
 
   registerToggle() {
     this.registerMode = !this.registerMode;
   }
 
-  cancelRegisterMode(event:boolean) {
-    console.log("cancel button from register form clicked!");
+  cancelRegisterMode(event: boolean) {
+    console.log('cancel button from register form clicked!');
     this.registerMode = event;
   }
 
-  getUsers() {
-    this._httpClient.get(this.urlPath).subscribe({
-      next: (response) => {
-        this.users = response;
-        console.log(response);
+
+  loadMembers() {
+    this.membersService.getMembers().subscribe({
+      next: (data) => {
+        this.users = data;
       },
       error: (err) => {
         console.log(err);
+      },
+      complete: () => {
+        console.log('Members loaded at home page!');
       },
     });
   }
