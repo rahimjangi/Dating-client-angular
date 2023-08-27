@@ -1,8 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrModule } from 'ngx-toastr';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [],
@@ -12,8 +14,17 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
   ],
-  exports: [BsDropdownModule, ToastrModule,TabsModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [
+    BsDropdownModule,
+    ToastrModule,
+    TabsModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
+  ],
 })
 export class SharedModule {}
